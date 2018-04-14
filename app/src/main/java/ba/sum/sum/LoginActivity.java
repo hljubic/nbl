@@ -122,6 +122,7 @@ public class LoginActivity extends AppCompatActivity {
         return password.length() > 4;
     }
 
+
     private void showProgress(final boolean show) {
         mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
         mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
