@@ -55,12 +55,14 @@ public class FragmentSimple extends Fragment {
         initComponent(root);
 
         return root;
+
     }
 
 
     private void initComponent(final View root) {
         RecyclerView recyclerView = root.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAdapter = new AdapterListSectioned(getContext(), tasks);
         recyclerView.setHasFixedSize(true);
 
 
@@ -68,7 +70,6 @@ public class FragmentSimple extends Fragment {
 
         final AdapterListSectioned mAdapter = new AdapterListSectioned(getActivity(), tasks);
         recyclerView.setAdapter(mAdapter);
-
 
 
         StringRequest taskRequest = new StringRequest(Request.Method.GET, Constants.BASE_API_URL + getArguments().getString(ARG_URL), new Response.Listener<String>() {
