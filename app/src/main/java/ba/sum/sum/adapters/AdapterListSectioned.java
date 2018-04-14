@@ -18,6 +18,7 @@ import java.util.List;
 import ba.sum.sum.DetailsActivity;
 import ba.sum.sum.R;
 import ba.sum.sum.models.Institution;
+import ba.sum.sum.models.Task;
 import ba.sum.sum.utils.Tools;
 
 public class AdapterListSectioned extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -25,11 +26,11 @@ public class AdapterListSectioned extends RecyclerView.Adapter<RecyclerView.View
     private final int VIEW_ITEM = 1;
     private final int VIEW_SECTION = 0;
 
-    private List<Institution> items = new ArrayList<>();
+    private List<Task> items = new ArrayList<>();
     private Context ctx;
     private OnItemClickListener mOnItemClickListener;
 
-    public AdapterListSectioned(Context context, List<Institution> items) {
+    public AdapterListSectioned(Context context, List<Task> items) {
         this.items = items;
         ctx = context;
     }
@@ -50,16 +51,17 @@ public class AdapterListSectioned extends RecyclerView.Adapter<RecyclerView.View
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        final Institution institution = items.get(position);
+        final Task task = items.get(position);
         if (holder instanceof OriginalViewHolder) {
             OriginalViewHolder view = (OriginalViewHolder) holder;
 
-            view.name.setText(institution.getName());
-            view.desc.setText(Tools.stripHtml(institution.getDesc()));
+            view.name.setText(task.getTitle());
+            view.desc.setText(Tools.stripHtml(task.getDesc()));
+
 
             ColorGenerator generator = ColorGenerator.DEFAULT;
             final int color = generator.getRandomColor();
-            String firstChar = institution.getName() != null && institution.getName().length() > 0 ? institution.getName().substring(0, 1) : " ";
+            String firstChar = task.getTitle() != null && task.getTitle().length() > 0 ? task.getTitle().substring(0, 1) : " ";
             TextDrawable drawable = TextDrawable.builder()
                     .buildRound(firstChar, color);
             view.image.setImageDrawable(drawable);
@@ -68,13 +70,13 @@ public class AdapterListSectioned extends RecyclerView.Adapter<RecyclerView.View
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(ctx, DetailsActivity.class);
-                    intent.putExtra("institution_id", institution.getId());
+                    intent.putExtra("task_id", task.getId());
                     ctx.startActivity(intent);
                 }
             });
         } else {
             SectionViewHolder view = (SectionViewHolder) holder;
-            view.title_section.setText(institution.getName());
+            view.title_section.setText(task.getTitle());
         }
     }
 
@@ -82,14 +84,14 @@ public class AdapterListSectioned extends RecyclerView.Adapter<RecyclerView.View
     public int getItemCount() {
         return items == null ? 0 : items.size();
     }
-
+/*
     @Override
     public int getItemViewType(int position) {
-        return this.items.get(position).isSection() ? VIEW_SECTION : VIEW_ITEM;
-    }
+       // return this.items.get(position).isSection() ? VIEW_SECTION : VIEW_ITEM;
+    }*/
 
-    public void insertItem(int index, Institution Institution) {
-        items.add(index, Institution);
+    public void insertItem(int index, Task Task) {
+        items.add(index, Task);
         notifyItemInserted(index);
     }
 
