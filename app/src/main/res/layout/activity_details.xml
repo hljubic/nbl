@@ -163,7 +163,7 @@
                 app:backgroundTint="@android:color/white"
                 app:fabSize="mini"
                 app:rippleColor="@android:color/black"
-                app:srcCompat="@drawable/ic_sum" />
+                app:srcCompat="@drawable/ic_done" />
 
             <View
                 android:layout_width="@dimen/spacing_xmedium"
