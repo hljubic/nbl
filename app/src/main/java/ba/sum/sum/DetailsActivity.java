@@ -4,32 +4,31 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.google.firebase.messaging.FirebaseMessaging;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import ba.sum.sum.adapters.AdapterPager;
 import ba.sum.sum.fragments.FragmentAbout;
 import ba.sum.sum.fragments.FragmentDocuments;
-import ba.sum.sum.models.Institution;
+import ba.sum.sum.models.Task;
 import ba.sum.sum.utils.Constants;
-import ba.sum.sum.utils.Tools;
 import ba.sum.sum.utils.ViewAnimation;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    private Institution institution;
+    private Task task;
     private View backDrop;
     private boolean rotate = false;
-    private View fabWeb;
     private View fabNavigate;
     private View fabContact;
     private View fabCall;
@@ -46,11 +45,11 @@ public class DetailsActivity extends AppCompatActivity {
             return;
 
         try {
-            String id = getIntent().getExtras().getString("institution_id", "-1");
-            institution = Institution.findParentOrChildById(id);
+            String id = getIntent().getExtras().getString("task_id", "-1");
+            task = Task.findById(id);
 
             Toolbar toolbar = findViewById(R.id.toolbar);
-            toolbar.setTitle(institution.getName());
+            toolbar.setTitle(task.getTitle());
             setSupportActionBar(toolbar);
 
             if (getSupportActionBar() != null) {
@@ -63,17 +62,12 @@ public class DetailsActivity extends AppCompatActivity {
 
             TabLayout tabLayout = findViewById(R.id.tab_layout);
             tabLayout.setupWithViewPager(viewPager);
-
-            if (institution.getId().equals(String.valueOf(Constants.REMOTE_ID_ZBOR))) {
-                tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         backDrop = findViewById(R.id.back_drop);
 
-        final FloatingActionButton fabWebBtn = findViewById(R.id.fab_web);
         final FloatingActionButton fabNavigateBtn = findViewById(R.id.fab_map);
         final FloatingActionButton fabContactBtn = findViewById(R.id.fab_contact);
         final FloatingActionButton fabCallBtn = findViewById(R.id.fab_call);
@@ -81,30 +75,10 @@ public class DetailsActivity extends AppCompatActivity {
         fabMain = findViewById(R.id.fab_add);
         fabFollow = findViewById(R.id.fab_follow);
 
-        if (String.valueOf(institution.getInstitutionId()).equals(String.valueOf(Constants.REMOTE_ID_ZBOR))) {
-            fabMain.setVisibility(View.GONE);
-            fabFollow.setVisibility(View.VISIBLE);
-
-            fabFollow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Snackbar.make(findViewById(R.id.ll_content), "Čestitamo! Uspješno ste se pretplatili.",
-                            Snackbar.LENGTH_SHORT)
-                            .show();
-
-                    FirebaseMessaging.getInstance().subscribeToTopic("news_" + institution.getId());
-                }
-            });
-
-            handleChildWithoutFab();
-        }
-
-        fabWeb = findViewById(R.id.lyt_web);
         fabNavigate = findViewById(R.id.lyt_map);
         fabCall = findViewById(R.id.lyt_call);
         fabContact = findViewById(R.id.lyt_contact);
 
-        ViewAnimation.initShowOut(fabWeb);
         ViewAnimation.initShowOut(fabNavigate);
         ViewAnimation.initShowOut(fabCall);
         ViewAnimation.initShowOut(fabContact);
@@ -125,15 +99,6 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
-        fabWebBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Uri uri = Uri.parse(institution.getWeb());
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
-            }
-        });
-
         fabNavigateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,29 +109,37 @@ public class DetailsActivity extends AppCompatActivity {
         fabCallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", institution.getPhone(), null));
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", task.getClient().getPhone(), null));
                 startActivity(intent);
             }
         });
 
         fabContactBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Tools.showContactDialog(DetailsActivity.this, institution);
+            public void onClick(View view) {
+                StringRequest taskRequest = new StringRequest(Request.Method.GET, Constants.BASE_API_URL + "realiziraj/" + task.getId(),
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                finish();
+                            }
+                        },null);
+
+                Volley.newRequestQueue(getApplicationContext()).add(taskRequest);
+
             }
         });
+
     }
 
     private void toggleFabMode(View v) {
         rotate = ViewAnimation.rotateFab(v, !rotate);
         if (rotate) {
-            ViewAnimation.showIn(fabWeb);
             ViewAnimation.showIn(fabNavigate);
             ViewAnimation.showIn(fabCall);
             ViewAnimation.showIn(fabContact);
             backDrop.setVisibility(View.VISIBLE);
         } else {
-            ViewAnimation.showOut(fabWeb);
             ViewAnimation.showOut(fabNavigate);
             ViewAnimation.showOut(fabCall);
             ViewAnimation.showOut(fabContact);
@@ -175,11 +148,10 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-
         AdapterPager adapter = new AdapterPager(getSupportFragmentManager());
 
-        adapter.addFragment(FragmentAbout.newInstance(institution.getId()), "Informacije");
-        adapter.addFragment(FragmentDocuments.newInstance(getIntent().getExtras().getString("task_id", "-1")), "Dokumenti");
+        adapter.addFragment(FragmentAbout.newInstance(task.getId()), "Informacije");
+        adapter.addFragment(FragmentDocuments.newInstance(task.getId()), "Dokumenti");
 
         viewPager.setAdapter(adapter);
     }
@@ -198,23 +170,27 @@ public class DetailsActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-       /* if (id == R.id.action_navigate) {
+        if (id == R.id.action_navigate) {
             navigate();
             return true;
         } else if (id == R.id.action_settings) {
             Intent intent = new Intent(DetailsActivity.this, SettingsActivity.class);
             startActivity(intent);
-        }*/
+        }
 
         return super.onOptionsItemSelected(item);
     }
 
     private void navigate() {
-        Uri gmmIntentUri = Uri.parse("google.navigation:q=" + institution.getLatitude() + ","
-                + institution.getLongitude() + "&mode=w");
-        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-        mapIntent.setPackage("com.google.android.apps.maps");
-        startActivity(mapIntent);
+        try {
+            Uri gmmIntentUri = Uri.parse("google.navigation:q=" + task.getClient().getLatitude() + ","
+                    + task.getClient().getLongitude() + "&mode=w");
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+            mapIntent.setPackage("com.google.android.apps.maps");
+            startActivity(mapIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -222,12 +198,6 @@ public class DetailsActivity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
-
-   /* public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem registrar = menu.findItem(R.id.action_navigate);
-        registrar.setVisible(!shouldHideNavigate);
-        return true;
-    }*/
 
     public void handleChildWithoutFab() {
         fabMain.setVisibility(View.GONE);

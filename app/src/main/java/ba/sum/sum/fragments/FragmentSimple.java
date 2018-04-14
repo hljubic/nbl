@@ -25,6 +25,7 @@ import java.util.List;
 import ba.sum.sum.R;
 import ba.sum.sum.adapters.AdapterListSectioned;
 import ba.sum.sum.models.Task;
+import ba.sum.sum.utils.App;
 import ba.sum.sum.utils.Constants;
 
 public class FragmentSimple extends Fragment {
@@ -34,8 +35,6 @@ public class FragmentSimple extends Fragment {
     private SwipeRefreshLayout swipe_refresh;
     public static final String ARG_URL = "arg_url";
     private AdapterListSectioned mAdapter;
-
-    private Task task;
 
     public static FragmentSimple newInstance(String url) {
         FragmentSimple fragment = new FragmentSimple();
@@ -53,12 +52,9 @@ public class FragmentSimple extends Fragment {
         tasks = new ArrayList<>();
 
         View root = inflater.inflate(R.layout.fragment_recycler_view, container, false);
-        getData();
+
         initComponent(root);
-
-
         return root;
-
     }
 
 
@@ -91,20 +87,20 @@ public class FragmentSimple extends Fragment {
         });
 
     }
+
     public void getData() {
         StringRequest taskRequest = new StringRequest(Request.Method.GET, Constants.BASE_API_URL + getArguments().getString(ARG_URL), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                ArrayList<Task> list = gson.fromJson(response, new TypeToken<List<Task>>() {
+                final ArrayList<Task> list = gson.fromJson(response, new TypeToken<List<Task>>() {
                 }.getType());
 
-                Task.saveAll(Task.class, list);
+                App.get().setTasks(list);
 
                 tasks.clear();
                 tasks.addAll(list);
 
                 mAdapter.notifyDataSetChanged();
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -112,28 +108,23 @@ public class FragmentSimple extends Fragment {
                 Toast.makeText(getContext(), R.string.cant_connect, Toast.LENGTH_LONG).show();
 
                 tasks.clear();
-                tasks.addAll(Task.listAll(Task.class));
+                tasks.addAll(App.get().getTasks());
 
                 mAdapter.notifyDataSetChanged();
             }
         });
 
         Volley.newRequestQueue(getContext()).add(taskRequest);
-
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getData();
+    }
+
     public void onPageFinished() {
         swipe_refresh.setRefreshing(false);
     }
-      /*  if (getArguments().getBoolean(ARG_STUDIES)) {
-            try {
-                AdapterListSectioned mAdapter = new AdapterListSectioned(getActivity(), institution.getChildrenSectioned());
-                recyclerView.setAdapter(mAdapter);
-            } catch (Exception e) {
-                AdapterListSectioned mAdapter = new AdapterListSectioned(getActivity(), institution.getChildren());
-                recyclerView.setAdapter(mAdapter);
-            }
-        } else {
-            AdapterDocument mAdapter = new AdapterDocument(getActivity(), institution.getDocuments());
-            recyclerView.setAdapter(mAdapter);
-        }*/
-    }
+}

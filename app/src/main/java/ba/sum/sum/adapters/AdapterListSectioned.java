@@ -28,7 +28,6 @@ public class AdapterListSectioned extends RecyclerView.Adapter<RecyclerView.View
 
     private List<Task> items = new ArrayList<>();
     private Context ctx;
-    private OnItemClickListener mOnItemClickListener;
 
     public AdapterListSectioned(Context context, List<Task> items) {
         this.items = items;

@@ -6,4 +6,10 @@
         android:orderInCategory="100"
         android:title="Postavke"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_navigate"
+        android:icon="@drawable/ic_near_me"
+        android:orderInCategory="200"
+        android:title="Upute"
+        app:showAsAction="ifRoom" />
 </menu>

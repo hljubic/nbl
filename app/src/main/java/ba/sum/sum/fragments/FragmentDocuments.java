@@ -35,7 +35,7 @@ public class FragmentDocuments extends Fragment {
 
         gson = new Gson();
 
-        task = Task.findById(Task.class, getArguments().getString(ARG_TASK_ID));
+        task = Task.findById(getArguments().getString(ARG_TASK_ID));
 
         View root = inflater.inflate(R.layout.fragment_recycler_view, container, false);
 

@@ -7,6 +7,7 @@ import java.util.List;
 
 import ba.hljubic.jsonorm.JsonOrm;
 import ba.sum.sum.models.Institution;
+import ba.sum.sum.models.Task;
 
 /**
  * Created by hrvoje on 25/03/2018.
@@ -18,6 +19,7 @@ public class App extends Application {
     private static App instance;
 
     private List<Institution> institutions;
+    private List<Task> tasks;
 
     public static synchronized App get() {
         if (instance == null) {
@@ -34,7 +36,7 @@ public class App extends Application {
 
         JsonOrm.with(this);
 
-        institutions = new ArrayList<>();
+        tasks = new ArrayList<>();
     }
 
     public void initInstitutions() {
@@ -47,5 +49,13 @@ public class App extends Application {
 
     public void setInstitutions(List<Institution> institutions) {
         this.institutions = institutions;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 }

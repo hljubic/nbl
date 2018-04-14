@@ -1,17 +1,16 @@
 package ba.sum.sum.models;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
-import ba.hljubic.jsonorm.JsonTable;
+import ba.sum.sum.utils.App;
 
 /**
  * Created by HP_PC on 14.4.2018..
  */
 
-public class Task extends JsonTable<Task> {
+public class Task {
 
+    private String id;
     private String title;
     private String desc;
     private String date;
@@ -19,7 +18,17 @@ public class Task extends JsonTable<Task> {
     private String remark;
     private double price;
 
+    private Client client;
+
     private List<Document> documents;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -68,11 +77,31 @@ public class Task extends JsonTable<Task> {
     public void setPrice(double price) {
         this.price = price;
     }
+
     public List<Document> getDocuments() {
         return documents;
     }
 
     public void setDocuments(List<Document> documents) {
         this.documents = documents;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public static Task findById(String id) {
+        List<Task> tasks = App.get().getTasks();
+
+        for (Task task : tasks) {
+            if (task.getId().equals(id))
+                return task;
+        }
+
+        return new Task(); // TODO: return null;
     }
 }
