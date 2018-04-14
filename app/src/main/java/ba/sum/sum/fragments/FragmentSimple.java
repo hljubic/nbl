@@ -95,7 +95,7 @@ public class FragmentSimple extends Fragment {
                 final ArrayList<Task> list = gson.fromJson(response, new TypeToken<List<Task>>() {
                 }.getType());
 
-                App.get().setTasks(list);
+                App.get().getTasks().addAll(list);
 
                 tasks.clear();
                 tasks.addAll(list);
