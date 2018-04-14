@@ -1,7 +1,9 @@
 package ba.sum.sum.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -29,7 +31,7 @@ public class FragmentSimple extends Fragment {
 
     Gson gson;
     private ArrayList<Task> tasks;
-
+    private SwipeRefreshLayout swipe_refresh;
     public static final String ARG_URL = "arg_url";
     private AdapterListSectioned mAdapter;
 
@@ -51,8 +53,9 @@ public class FragmentSimple extends Fragment {
         tasks = new ArrayList<>();
 
         View root = inflater.inflate(R.layout.fragment_recycler_view, container, false);
-
+        getData();
         initComponent(root);
+
 
         return root;
 
@@ -66,12 +69,29 @@ public class FragmentSimple extends Fragment {
         recyclerView.setHasFixedSize(true);
 
 
-
-
-        final AdapterListSectioned mAdapter = new AdapterListSectioned(getActivity(), tasks);
         recyclerView.setAdapter(mAdapter);
 
 
+        swipe_refresh = root.findViewById(R.id.swipe_refresh_layout);
+        swipe_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipe_refresh.setRefreshing(true);
+                (new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipe_refresh.setRefreshing(false);
+
+                        getData();
+                        onPageFinished();
+                    }
+                }, 1000);
+            }
+
+        });
+
+    }
+    public void getData() {
         StringRequest taskRequest = new StringRequest(Request.Method.GET, Constants.BASE_API_URL + getArguments().getString(ARG_URL), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -100,6 +120,10 @@ public class FragmentSimple extends Fragment {
 
         Volley.newRequestQueue(getContext()).add(taskRequest);
 
+    }
+    public void onPageFinished() {
+        swipe_refresh.setRefreshing(false);
+    }
       /*  if (getArguments().getBoolean(ARG_STUDIES)) {
             try {
                 AdapterListSectioned mAdapter = new AdapterListSectioned(getActivity(), institution.getChildrenSectioned());
@@ -113,4 +137,3 @@ public class FragmentSimple extends Fragment {
             recyclerView.setAdapter(mAdapter);
         }*/
     }
-}
