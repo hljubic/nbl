@@ -29,13 +29,13 @@ public class FragmentSimple extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        institution = Institution.findParentOrChildById(getActivity().getIntent().getExtras().getString("institution_id"));
+       /* institution = Institution.findParentOrChildById(getActivity().getIntent().getExtras().getString("institution_id"));
 
         if (!getArguments().getBoolean(ARG_STUDIES)) {
             if (institution.getDocuments() == null || institution.getDocuments().size() == 0) {
                 return inflater.inflate(R.layout.fragment_no_documents, container, false);
             }
-        }
+        }*/
 
         View root = inflater.inflate(R.layout.fragment_recycler_view, container, false);
 
@@ -49,7 +49,7 @@ public class FragmentSimple extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
 
-        if (getArguments().getBoolean(ARG_STUDIES)) {
+      /*  if (getArguments().getBoolean(ARG_STUDIES)) {
             try {
                 AdapterListSectioned mAdapter = new AdapterListSectioned(getActivity(), institution.getChildrenSectioned());
                 recyclerView.setAdapter(mAdapter);
@@ -60,6 +60,6 @@ public class FragmentSimple extends Fragment {
         } else {
             AdapterDocument mAdapter = new AdapterDocument(getActivity(), institution.getDocuments());
             recyclerView.setAdapter(mAdapter);
-        }
+        }*/
     }
 }

@@ -20,6 +20,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/grey_10"
-        android:text="Dobrodošli u mobilnu aplikaciju Sveučilišta u Mostaru"
+        android:text="Dobrodošli u mobilnu aplikaciju Nobel"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 </LinearLayout>

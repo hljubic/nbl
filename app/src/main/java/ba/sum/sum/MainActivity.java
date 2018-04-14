@@ -22,6 +22,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import ba.sum.sum.adapters.AdapterPager;
 import ba.sum.sum.fragments.FragmentFaculties;
 import ba.sum.sum.fragments.FragmentNews;
+import ba.sum.sum.fragments.FragmentSimple;
 import ba.sum.sum.fragments.FragmentWebView;
 import ba.sum.sum.utils.Constants;
 import ba.sum.sum.utils.Tools;
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Glide.with(this).load(R.drawable.ic_sum)
+        Glide.with(this).load(R.drawable.ic_nobel)
                 .into((ImageView) navigationView.getHeaderView(0).findViewById(R.id.iv_logo_nav));
 
         viewPager = findViewById(R.id.view_pager);
@@ -61,9 +62,9 @@ public class MainActivity extends AppCompatActivity
 
     private void setupViewPager(ViewPager viewPager) {
         AdapterPager adapter = new AdapterPager(getSupportFragmentManager());
-        adapter.addFragment(FragmentFaculties.newInstance(), "Fakulteti");
-        adapter.addFragment(FragmentNews.newInstance(null), "Novosti");
-        adapter.addFragment(FragmentWebView.newInstance(Constants.BASE_URL + "tweets.html"), "TWITTER");
+       /// adapter.addFragment(FragmentFaculties.newInstance(), "Fakulteti");
+        adapter.addFragment(FragmentSimple.newInstance(true), "Aktivni");
+        adapter.addFragment(FragmentNews.newInstance(null), "Kasne");
         viewPager.setAdapter(adapter);
     }
 
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_maps) {
+       /* if (id == R.id.action_maps) {
             Intent intent = new Intent(MainActivity.this, MapsActivity.class);
             intent.putExtra("only_faculties", true);
             startActivity(intent);
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.action_settings) {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(intent);
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -133,23 +134,7 @@ public class MainActivity extends AppCompatActivity
                     Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
                     intent.putExtra("institution_id", Constants.REMOTE_ID_SERVIS);
                     startActivity(intent);
-                } else if (id == R.id.nav_rector) {
-                    Intent intent = new Intent(MainActivity.this, RectorActivity.class);
-                    startActivity(intent);
-                } else if (id == R.id.nav_pois) {
-                    Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-                    intent.putExtra("only_faculties", false);
-                    startActivity(intent);
-                } else if (id == R.id.nav_contact) {
-                    Tools.showContactDialog(MainActivity.this, null);
-                } else if (id == R.id.nav_faq) {
-                    Intent intent = new Intent(MainActivity.this, FaqActivity.class);
-                    startActivity(intent);
-                } else if (id == R.id.nav_iss) {
-                    // TODO: Čupati sa API-ja
-                    Uri uri = Uri.parse("http://is.sve-mo.ba/prijava_ispita.html");
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    startActivity(intent);
+
                 }
             }
         }, 300);

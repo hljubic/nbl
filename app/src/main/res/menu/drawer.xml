@@ -8,22 +8,22 @@
         <item
             android:id="@+id/nav_university"
             android:icon="@drawable/ic_university"
-            android:title="Sveučilište u Mostaru" />
+            android:title="Naslovnica" />
         <item
             android:id="@+id/nav_choir"
             android:icon="@drawable/ic_business"
-            android:title="Studentski zbor" />
+            android:title="Putni nalog" />
         <item
             android:id="@+id/nav_center"
             android:icon="@drawable/nav_service"
-            android:title="Studentski centar" />
+            android:title="Radno vrijeme" />
         <item
             android:id="@+id/nav_service"
             android:icon="@drawable/ic_group"
-            android:title="Studentski servis" />
+            android:title="Odjava" />
     </group>
 
-    <item android:title="Ostalo">
+  <!--  <item android:title="Ostalo">
         <menu>
             <item
                 android:id="@+id/nav_rector"
@@ -46,6 +46,6 @@
                 android:icon="@drawable/ic_web_black_24dp"
                 android:title="ISS" />
         </menu>
-    </item>
+    </item>-->
 
 </menu>
