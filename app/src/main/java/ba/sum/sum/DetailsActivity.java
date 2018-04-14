@@ -217,13 +217,13 @@ public class DetailsActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_navigate) {
+       /* if (id == R.id.action_navigate) {
             navigate();
             return true;
         } else if (id == R.id.action_settings) {
             Intent intent = new Intent(DetailsActivity.this, SettingsActivity.class);
             startActivity(intent);
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -242,11 +242,11 @@ public class DetailsActivity extends AppCompatActivity {
         return true;
     }
 
-    public boolean onPrepareOptionsMenu(Menu menu) {
+   /* public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem registrar = menu.findItem(R.id.action_navigate);
         registrar.setVisible(!shouldHideNavigate);
         return true;
-    }
+    }*/
 
     public void handleChildWithoutFab() {
         fabMain.setVisibility(View.GONE);
