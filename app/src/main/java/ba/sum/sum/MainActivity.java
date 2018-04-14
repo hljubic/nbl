@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Glide.with(this).load(R.drawable.ic_nobel)
+        Glide.with(this).load(R.drawable.nobel_logo)
                 .into((ImageView) navigationView.getHeaderView(0).findViewById(R.id.iv_logo_nav));
 
         viewPager = findViewById(R.id.view_pager);
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity
 
     private void setupViewPager(ViewPager viewPager) {
         AdapterPager adapter = new AdapterPager(getSupportFragmentManager());
-       /// adapter.addFragment(FragmentFaculties.newInstance(), "Fakulteti");
+        /// adapter.addFragment(FragmentFaculties.newInstance(), "Fakulteti");
         adapter.addFragment(FragmentSimple.newInstance(true), "Aktivni");
         adapter.addFragment(FragmentNews.newInstance(null), "Kasne");
         viewPager.setAdapter(adapter);
@@ -135,6 +135,12 @@ public class MainActivity extends AppCompatActivity
                     intent.putExtra("institution_id", Constants.REMOTE_ID_SERVIS);
                     startActivity(intent);
 
+                } else if (id == R.id.nav_logout)
+
+                {
+                    Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+                    intent.putExtra("institution_id", Constants.REMOTE_ID_SERVIS);
+                    startActivity(intent);
                 }
             }
         }, 300);
