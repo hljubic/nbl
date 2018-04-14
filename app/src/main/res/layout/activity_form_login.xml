@@ -4,6 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="0px"
+        android:layout_height="0px"/>
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -14,18 +19,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="60dp"
             android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
             <ImageView
-                android:src="@drawable/nobel_logo2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="270dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/nobel_logo4" />
 
 
         </LinearLayout>
-
     </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
@@ -66,15 +70,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <AutoCompleteTextView
+                        <EditText
                             android:id="@+id/email"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
                             android:hint="Email"
-                            android:text="admin"
                             android:inputType="textEmailAddress"
                             android:maxLines="1"
-                            android:singleLine="true" />
+                            android:singleLine="true"
+                            android:text="admin" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -86,13 +92,15 @@
                             android:id="@+id/password"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
                             android:hint="Lozinka"
-                            android:text="1234"
                             android:imeActionId="@+id/login"
                             android:imeOptions="actionUnspecified"
                             android:inputType="textPassword"
                             android:maxLines="1"
-                            android:singleLine="true" />
+                            android:singleLine="true"
+                            android:text="1234" />
 
                     </android.support.design.widget.TextInputLayout>
 

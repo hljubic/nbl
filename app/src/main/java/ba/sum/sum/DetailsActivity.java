@@ -9,6 +9,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,9 +18,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import ba.sum.sum.adapters.AdapterPager;
 import ba.sum.sum.fragments.FragmentAbout;
-import ba.sum.sum.fragments.FragmentNews;
-import ba.sum.sum.fragments.FragmentSimple;
-import ba.sum.sum.fragments.FragmentWebView;
+import ba.sum.sum.fragments.FragmentDocuments;
 import ba.sum.sum.models.Institution;
 import ba.sum.sum.utils.Constants;
 import ba.sum.sum.utils.Tools;
@@ -179,26 +178,8 @@ public class DetailsActivity extends AppCompatActivity {
 
         AdapterPager adapter = new AdapterPager(getSupportFragmentManager());
 
-        if (String.valueOf(institution.getInstitutionId()).equals(Constants.REMOTE_ID_ZBOR)) {
-            adapter.addFragment(FragmentNews.newInstance(institution.getId()), "Novosti");
-        } else {
-            adapter.addFragment(FragmentAbout.newInstance(institution.getId()), "Informacije");
-        }
-
-        if (String.valueOf(institution.getInstitutionId()).equals(Constants.REMOTE_ID_SVEUCILISTE)
-                && institution.getChildren().size() > 0) {
-            adapter.addFragment(FragmentSimple.newInstance(""), "Studiji");
-        }
-
-        if (institution.getId().equals(String.valueOf(Constants.REMOTE_ID_ZBOR))) {
-            adapter.addFragment(FragmentSimple.newInstance(""), "Događaji");
-        }
-
-        adapter.addFragment(FragmentSimple.newInstance(""), "Dokumenti");
-
-        if (institution.getId().equals(String.valueOf(Constants.REMOTE_ID_ZBOR))) {
-            adapter.addFragment(FragmentWebView.newInstance(Constants.ZBOR_USTROJ), "Uprava");
-        }
+        adapter.addFragment(FragmentAbout.newInstance(institution.getId()), "Informacije");
+        adapter.addFragment(FragmentDocuments.newInstance(getIntent().getExtras().getString("task_id", "-1")), "Dokumenti");
 
         viewPager.setAdapter(adapter);
     }

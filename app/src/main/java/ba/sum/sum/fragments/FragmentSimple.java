@@ -66,8 +66,6 @@ public class FragmentSimple extends Fragment {
         recyclerView.setHasFixedSize(true);
 
 
-
-
         final AdapterListSectioned mAdapter = new AdapterListSectioned(getActivity(), tasks);
         recyclerView.setAdapter(mAdapter);
 
@@ -78,7 +76,7 @@ public class FragmentSimple extends Fragment {
                 ArrayList<Task> list = gson.fromJson(response, new TypeToken<List<Task>>() {
                 }.getType());
 
-                //Task.saveAllAsync(Task.class, list);
+                Task.saveAll(Task.class, list);
 
                 tasks.clear();
                 tasks.addAll(list);
@@ -99,18 +97,5 @@ public class FragmentSimple extends Fragment {
         });
 
         Volley.newRequestQueue(getContext()).add(taskRequest);
-
-      /*  if (getArguments().getBoolean(ARG_STUDIES)) {
-            try {
-                AdapterListSectioned mAdapter = new AdapterListSectioned(getActivity(), institution.getChildrenSectioned());
-                recyclerView.setAdapter(mAdapter);
-            } catch (Exception e) {
-                AdapterListSectioned mAdapter = new AdapterListSectioned(getActivity(), institution.getChildren());
-                recyclerView.setAdapter(mAdapter);
-            }
-        } else {
-            AdapterDocument mAdapter = new AdapterDocument(getActivity(), institution.getDocuments());
-            recyclerView.setAdapter(mAdapter);
-        }*/
     }
 }

@@ -4,7 +4,6 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-
         <item
             android:id="@+id/nav_university"
             android:icon="@drawable/ic_assignment_black_24dp"
@@ -21,10 +20,14 @@
             android:id="@+id/nav_service"
             android:icon="@drawable/ic_local_shipping_black_24dp"
             android:title="Putni nalog" />
-        <item
-            android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_exit_to_app_black_24dp"
-            android:title="Odjava" />
     </group>
 
+    <item android:title="Ostalo">
+        <menu>
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_exit_to_app_black_24dp"
+                android:title="Odjava" />
+        </menu>
+    </item>
 </menu>
