@@ -78,7 +78,7 @@ public class FragmentNews extends Fragment {
 
     public void getData(String filterId) {
 
-        StringRequest request = new StringRequest(Request.Method.GET, Constants.BASE_API_URL + "novosti" + filterId, new Response.Listener<String>() {
+       StringRequest request = new StringRequest(Request.Method.GET, Constants.BASE_API_URL + "nalozi" + filterId, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 ArrayList<Post> list = new Gson().fromJson(response, new TypeToken<List<Post>>() {

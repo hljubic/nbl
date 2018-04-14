@@ -79,6 +79,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Email"
+                            android:text="admin"
                             android:inputType="textEmailAddress"
                             android:maxLines="1"
                             android:singleLine="true" />
@@ -94,6 +95,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Lozinka"
+                            android:text="1234"
                             android:imeActionId="@+id/login"
                             android:imeOptions="actionUnspecified"
                             android:inputType="textPassword"

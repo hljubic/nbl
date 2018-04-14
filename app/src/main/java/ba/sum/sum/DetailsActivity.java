@@ -187,14 +187,14 @@ public class DetailsActivity extends AppCompatActivity {
 
         if (String.valueOf(institution.getInstitutionId()).equals(Constants.REMOTE_ID_SVEUCILISTE)
                 && institution.getChildren().size() > 0) {
-            adapter.addFragment(FragmentSimple.newInstance(true), "Studiji");
+            adapter.addFragment(FragmentSimple.newInstance(""), "Studiji");
         }
 
         if (institution.getId().equals(String.valueOf(Constants.REMOTE_ID_ZBOR))) {
-            adapter.addFragment(FragmentSimple.newInstance(true), "Događaji");
+            adapter.addFragment(FragmentSimple.newInstance(""), "Događaji");
         }
 
-        adapter.addFragment(FragmentSimple.newInstance(false), "Dokumenti");
+        adapter.addFragment(FragmentSimple.newInstance(""), "Dokumenti");
 
         if (institution.getId().equals(String.valueOf(Constants.REMOTE_ID_ZBOR))) {
             adapter.addFragment(FragmentWebView.newInstance(Constants.ZBOR_USTROJ), "Uprava");

@@ -1,7 +1,6 @@
 package ba.sum.sum;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -20,12 +19,8 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import ba.sum.sum.adapters.AdapterPager;
-import ba.sum.sum.fragments.FragmentFaculties;
-import ba.sum.sum.fragments.FragmentNews;
 import ba.sum.sum.fragments.FragmentSimple;
-import ba.sum.sum.fragments.FragmentWebView;
 import ba.sum.sum.utils.Constants;
-import ba.sum.sum.utils.Tools;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -63,8 +58,8 @@ public class MainActivity extends AppCompatActivity
     private void setupViewPager(ViewPager viewPager) {
         AdapterPager adapter = new AdapterPager(getSupportFragmentManager());
        /// adapter.addFragment(FragmentFaculties.newInstance(), "Fakulteti");
-        adapter.addFragment(FragmentSimple.newInstance(true), "Aktivni");
-        adapter.addFragment(FragmentNews.newInstance(null), "Kasne");
+        adapter.addFragment(FragmentSimple.newInstance("nalozi"), "Aktivni");
+        adapter.addFragment(FragmentSimple.newInstance("nalozi/kasne"), "Kasne");
         viewPager.setAdapter(adapter);
     }
 

@@ -31,6 +31,9 @@ public class LoginActivity extends AppCompatActivity {
     private View mProgressView;
     private View mLoginFormView;
 
+    private static final String TEST_EMAIL = "admin";
+    private static final String TEST_PASSWORD = "1234";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,8 +63,16 @@ public class LoginActivity extends AppCompatActivity {
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-                startActivity(intent);
+                if (mEmailView.getText().toString().equals(TEST_EMAIL) &&
+                        mPasswordView.getText().toString().equals(TEST_PASSWORD)) {
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                } else {
+
+                    Toast.makeText(getApplicationContext(), "Neuspješna prijava.", Toast.LENGTH_SHORT).show();
+
+                }
+
             }
         });
 
@@ -86,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if (!TextUtils.isEmpty(email) && !isPasswordValid(password)) {
             mPasswordView.setError("invalid_password");
             focusView = mPasswordView;
             cancel = true;

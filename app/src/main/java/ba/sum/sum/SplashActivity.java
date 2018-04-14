@@ -138,7 +138,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        Glide.with(this).load(R.drawable.splash).centerCrop()
+        Glide.with(this).load(R.drawable.nobel1).fitCenter()
                 .into((ImageView) findViewById(R.id.image));
 
         Tools.setSystemBarColor(this, R.color.colorPrimaryDark);
