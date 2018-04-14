@@ -38,7 +38,7 @@ public class AdapterListSectioned extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder vh;
-        if (viewType == VIEW_ITEM) {
+        if (viewType != VIEW_ITEM) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_studies, parent, false);
             vh = new OriginalViewHolder(v);
         } else {
@@ -70,13 +70,14 @@ public class AdapterListSectioned extends RecyclerView.Adapter<RecyclerView.View
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(ctx, DetailsActivity.class);
-                    intent.putExtra("task_id", task.getId());
+                    intent.putExtra("task_id", task.getTaskID());
                     ctx.startActivity(intent);
                 }
             });
         } else {
             SectionViewHolder view = (SectionViewHolder) holder;
             view.title_section.setText(task.getTitle());
+
         }
     }
 
