@@ -18,24 +18,8 @@ public class Task extends JsonTable<Task> {
     private String date_renewal;
     private String remark;
     private double price;
-    @SerializedName("task_id")
-    private int taskID;
 
-    List<Task> tasks;
-
-    public Task() {
-    }
-
-
-    public Task(String title, String desc, String date, String date_renewal, String remark, double price, int taskID) {
-        this.title = title;
-        this.desc = desc;
-        this.date = date;
-        this.date_renewal = date_renewal;
-        this.remark = remark;
-        this.price = price;
-        this.taskID = taskID;
-    }
+    private List<Document> documents;
 
     public String getTitle() {
         return title;
@@ -84,12 +68,11 @@ public class Task extends JsonTable<Task> {
     public void setPrice(double price) {
         this.price = price;
     }
-
-    public int getTaskID() {
-        return taskID;
+    public List<Document> getDocuments() {
+        return documents;
     }
 
-    public void setTaskID(int taskID) {
-        this.taskID = taskID;
+    public void setDocuments(List<Document> documents) {
+        this.documents = documents;
     }
 }

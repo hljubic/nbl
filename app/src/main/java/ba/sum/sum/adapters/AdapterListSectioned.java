@@ -70,7 +70,7 @@ public class AdapterListSectioned extends RecyclerView.Adapter<RecyclerView.View
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(ctx, DetailsActivity.class);
-                    intent.putExtra("task_id", task.getTaskID());
+                    intent.putExtra("task_id", task.getId());
                     ctx.startActivity(intent);
                 }
             });
